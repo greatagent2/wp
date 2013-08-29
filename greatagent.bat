@@ -2,5 +2,5 @@
 :: Main Batch File
    
 @echo off
-title greatagent-ga
-greatagent-ga.bat
+title greatagent-wp
+greatagent-wp.bat
