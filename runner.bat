@@ -12,3 +12,5 @@ echo Starting FirefoxPortable...
 python27.exe startfirefox.py
 
 pause
+
+exit
