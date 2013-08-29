@@ -100,7 +100,10 @@ class Updater(object):
 				output.write(oldfile)
 				output.close()
 			print 'Recover	'+filename+'				OK!'
-			
+		if filename.strip() == '/autoupdate.ini'.strip():
+			newconfig = Config(__config__)
+			newconfig.writeconfig('autoupdate', 'server',common.AUTOUPDATE_SERVER_STR)
+			print 'ReWrite	/autoupdate.ini				OK!'
 	def getnewsha1(self,path,oldsha1):
 		output = FileUtil.open(path,"wb")
 		output.write(self.netopen('/'+__sha1__)) 
@@ -117,6 +120,7 @@ class Updater(object):
 		print 'Verify Successful1!'
 
 	def update(self):
+		print 'Checking for new update...'
 		versionfile = self.netopen('/'+__versionfile__)
 		print "Show Server Version Message:"
 		print versionfile
@@ -127,6 +131,7 @@ class Updater(object):
 		newsha1 = Config(path)
 		for path, sha1v in newsha1.getsection('FILE_SHA1'):
 			if not (sha1v == oldsha1.getconfig('FILE_SHA1',path)):
+				oldpath = path
 				path = path.replace('$path$','')
 				path = path.replace('\\','/')
 				self.writefile(path,sha1v)
@@ -143,6 +148,8 @@ def main():
 	sha1 = makehash(dir)
 	updater = Updater(common.AUTOUPDATE_SERVER[0],sha1,dir)
 	updater.update()
+	newconfig = Config(__config__)
+	newconfig.writeconfig('autoupdate', 'server',common.AUTOUPDATE_SERVER_STR)
 
 	#for path, sha1v in sha1.getsection('FILE_SHA1'):
 		#newpath = path.replace('$path$',dir)
