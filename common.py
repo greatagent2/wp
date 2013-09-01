@@ -54,9 +54,14 @@ class FileUtil(object):
 		shutil.rmtree(dir)
 
 	@staticmethod
-	def if_has_file_remove(filename):
+	def if_has_file_remove(filename,showinfo = False):
 		if os.path.isfile(FileUtil.getfile(filename)):
-			os.remove(FileUtil.getfile(filename)) 
+			try : 
+				os.remove(FileUtil.getfile(filename)) 
+				if showinfo:
+					print 'Remove	'+filename+'				OK!'
+			except :
+				return
 
 	@staticmethod
 	def get_file_sha1(f):
@@ -173,6 +178,7 @@ class Common(object):
 		self.REGEX_ONLYR = tuple(x for x in self.CONFIG.get('regex', 'onlyr').split('|') if x)
 		self.CONFIG_SHA1 = self.CONFIG.get('config', 'sha1')
 		self.CONFIG_SIGN = self.CONFIG.get('config', 'sign')
+		self.CONFIG_NEEDCLEAN = self.CONFIG.get('config', 'needclean')
 		self.CONFIG_GIT = self.CONFIG.get('config', 'git')
 		self.CONFIG_VERSIONFILE = self.CONFIG.get('config', 'versionfile')
 		self.CONFIG_PUBKEY = self.CONFIG.get('config', 'pubkey')

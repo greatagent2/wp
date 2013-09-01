@@ -116,6 +116,13 @@ class Updater(object):
 			print 'Verify Failed!'
 			sys.exit()
 		print 'Verify Successful1!'
+		
+	def cleandir(self):
+		needclean = Config(common.CONFIG_NEEDCLEAN)
+		for path, sha1v in needclean.getsection('NEEDCLEAN'):
+			path = path.replace('\\','/')
+			path = path.replace('$path$/','')
+			FileUtil.if_has_file_remove(path,showinfo = True)
 
 	def update(self):
 		print 'Checking for new update...'
@@ -135,6 +142,10 @@ class Updater(object):
 				self.writefile(path,sha1v)
 		FileUtil.if_has_file_remove(path)
 		print 'Finished Update'
+		print 'Cleaning DIR'
+		self.cleandir()
+		print 'Finished Clean'
+		
 
 
 
