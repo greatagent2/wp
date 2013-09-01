@@ -13,3 +13,5 @@ cd /D "%~dp0"
 python27.exe autoupdate.py
 
 start runner.bat
+
+pause
