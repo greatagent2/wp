@@ -104,6 +104,7 @@ class Common(object):
                 random.shuffle(v)
             else:
                 self.GAE_APPIDS = v.split('|')
+                random.shuffle(self.GAE_APPIDS)
             self.GAE_PASSWORD   = self.get('gae', 'password', '')
             self.GAE_PATH       = self.get('gae', 'path', '/fetch.py')
             GAE_PROFILE         = self.get('gae', 'profile', GAE_PROFILE)
