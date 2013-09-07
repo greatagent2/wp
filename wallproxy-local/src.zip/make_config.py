@@ -104,7 +104,6 @@ class Common(object):
                 random.shuffle(v)
             else:
                 self.GAE_APPIDS = v.split('|')
-                random.shuffle(self.GAE_APPIDS)
             self.GAE_PASSWORD   = self.get('gae', 'password', '')
             self.GAE_PATH       = self.get('gae', 'path', '/fetch.py')
             GAE_PROFILE         = self.get('gae', 'profile', GAE_PROFILE)
@@ -476,7 +475,10 @@ def config():
 %end #TARGET_PAAS
 %if GAE_ENABLE:
 %HTTPS_TARGET['GAE'] = 'None'
-    GAE = paas.GAE(appids={{!GAE_APPIDS}}\\
+    import random
+    appids={{!GAE_APPIDS}}
+    random.shuffle(appids)
+    GAE = paas.GAE(appids=appids\\
 %if GAE_LISTEN:
 , listen={{!GAE_LISTEN}}\\
 %end
