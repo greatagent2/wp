@@ -137,10 +137,10 @@ class Common(object):
                     url = self.get(k, 'appid', '')
                     if not url: continue
                     url = ['https://%s.appspot.com/%s.py' % (i,k) for i in url.split('|')]
-                crypto = (self.get(k, 'crypto', '') + '|'*20).split('|')
+                crypto = (self.get(k, 'crypto', '') + '|'*200).split('|')
                 key = self.get(k, 'password', '').decode('string-escape')
-                key = (key + ('|'+key)*20).split('|')
-                proxy = [v.split(',') if ',' in v else v for v in (self.get(k, 'proxy', 'default')+'|'*20).split('|')]
+                key = (key + ('|'+key)*200).split('|')
+                proxy = [v.split(',') if ',' in v else v for v in (self.get(k, 'proxy', 'default')+'|'*200).split('|')]
                 configs = []
                 for url,crypto,key,proxy in zip(url,crypto,key,proxy):
                     config = {'url':url, 'key':key}
@@ -475,10 +475,7 @@ def config():
 %end #TARGET_PAAS
 %if GAE_ENABLE:
 %HTTPS_TARGET['GAE'] = 'None'
-    import random
-    appids={{!GAE_APPIDS}}
-    random.shuffle(appids)
-    GAE = paas.GAE(appids=appids\\
+    GAE = paas.GAE(appids={{!GAE_APPIDS}}\\
 %if GAE_LISTEN:
 , listen={{!GAE_LISTEN}}\\
 %end
