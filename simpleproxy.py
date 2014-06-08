@@ -696,7 +696,7 @@ class URLFetch(object):
 
     def __google_fetch(self, method, url, headers, body, timeout, **kwargs):
         url = url.replace('http://', 'https://', 1)
-        url = re.sub(r'^(\w+://)', r'\g<1>1-ps.googleusercontent.com/h/', url)
+        url = re.sub(r'^(\w+://)', r'\g<1>2-ps.googleusercontent.com/h/', url)
         #print url
         proxies = {'http':'%s:%s'%('127.0.0.1', common.LISTEN_PORT),'https':'%s:%s'%('127.0.0.1', common.LISTEN_PORT)}
         opener = urllib2.build_opener(urllib2.ProxyHandler(proxies))
@@ -1404,7 +1404,6 @@ class AdvancedProxyHandler(SimpleProxyHandler):
         addresses = [(x, port) for x in self.gethostbyname2(hostname)]
         sock = None
         for i in range(kwargs.get('max_retry', 10)):
-            reorg_ipaddrs()
             window = self.max_window + i
             good_addrs = [x for x in addresses if x in self.ssl_connection_good_ipaddrs]
             if len(good_addrs) > window:
@@ -1428,6 +1427,7 @@ class AdvancedProxyHandler(SimpleProxyHandler):
                 elif i == 0:
                     # only output first error
                     logging.warning('create_ssl_connection to %r with %s return %r, try again.', hostname, addrs, sock)
+            reorg_ipaddrs()
         if isinstance(sock, Exception):
             raise sock
 
@@ -1535,6 +1535,7 @@ class AdvancedProxyHandler(SimpleProxyHandler):
 
     def handle_urlfetch_error(self, fetchserver, response):
         pass
+
 
 
 class Common(object):
